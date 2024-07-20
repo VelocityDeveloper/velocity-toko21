@@ -28,22 +28,22 @@ function velocitychild_theme_setup()
 {
     if (class_exists('Kirki')) :
 
-        Kirki::add_panel('panel_toko19', [
+        Kirki::add_panel('panel_toko21', [
             'priority'    => 10,
-            'title'       => esc_html__('Setting Toko 19', 'justg'),
+            'title'       => esc_html__('Setting Toko 21', 'justg'),
             'description' => esc_html__('', 'justg'),
         ]);
 
         // section title_tagline
         Kirki::add_section('title_tagline', [
-            'panel'    => 'panel_toko19',
+            'panel'    => 'panel_toko21',
             'title'    => __('Site Identity', 'justg'),
             'priority' => 10,
         ]);
 
         ///Section Color
         Kirki::add_section('section_colorvelocity', [
-            'panel'    => 'panel_toko19',
+            'panel'    => 'panel_toko21',
             'title'    => __('Background', 'justg'),
             'priority' => 10,
         ]);
@@ -100,7 +100,7 @@ function velocitychild_theme_setup()
 
         ///Section Typography
         Kirki::add_section('section_typography', [
-            'panel'    => 'panel_toko19',
+            'panel'    => 'panel_toko21',
             'title'    => __('Typography', 'justg'),
             'priority' => 10,
         ]);
@@ -139,7 +139,7 @@ function velocitychild_theme_setup()
 
         ///Section Color
         Kirki::add_section('section_slider', [
-            'panel'    => 'panel_toko19',
+            'panel'    => 'panel_toko21',
             'title'    => __('Slider Home', 'justg'),
             'priority' => 10,
         ]);
@@ -167,7 +167,7 @@ function velocitychild_theme_setup()
 
         // section velocity_news_section
         Kirki::add_section('velocity_news_section', [
-            'panel'    => 'panel_toko19',
+            'panel'    => 'panel_toko21',
             'title'    => __('Velocity Home News', 'justg'),
             'priority' => 10,
         ]);

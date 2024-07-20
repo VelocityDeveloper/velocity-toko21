@@ -21,8 +21,10 @@ $sliders = velocitytheme_option('slider_repeat');
 
                 <div id="carouselExampleInterval" class="carousel slide border" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <?php foreach ($sliders as $slider) : ?>
-                            <div class="carousel-item active" data-bs-interval="3000">
+                        <?php $i = 0;
+                        foreach ($sliders as $slider) : $i++;
+                        $active = $i==1 ? 'active' : '';?>
+                            <div class="carousel-item <?php echo $active;?>" data-bs-interval="3000">
                                 <img class="ratio ratio-16x9" src="<?php echo $slider['imgslider']; ?>" alt="...">
                             </div>
                         <?php endforeach; ?>
