@@ -64,7 +64,7 @@ function velocity_toko21_kartu_produk()
     <article <?php post_class('col-md-3 col-6 p-2 mb-3'); ?> id="post-<?php the_ID(); ?>">
         <div class="card rounded-0 h-100 card-product">
             <a href="<?php the_permalink(); ?>">
-                <?php echo do_shortcode('[wp_store_thumbnail width="310" height="290" crop="false"]'); ?>
+                <?php echo do_shortcode('[wp_store_thumbnail width="310" height="290" crop="true"]'); ?>
             </a>
             <div class="p-3">
                 <div class="my-2 text-center">
