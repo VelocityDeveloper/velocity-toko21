@@ -11,7 +11,7 @@
 // phpinfo();
 get_header();
 $container         = velocitytheme_option('justg_container_type', 'container');
-$sliders = velocitytheme_option('slider_repeat');
+$sliders = velocity_toko21_slider();
 ?>
 <div class="wrapper mt-3 p-0" id="page-wrapper">
     <div class="" id="content">
@@ -19,13 +19,12 @@ $sliders = velocitytheme_option('slider_repeat');
             <?php do_action('justg_before_content'); ?>
             <main class="site-main" id="main" role="main">
 
+                <?php if ($sliders) : ?>
                 <div id="carouselExampleInterval" class="carousel slide border" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        <?php $i = 0;
-                        foreach ($sliders as $slider) : $i++;
-                        $active = $i==1 ? 'active' : '';?>
-                            <div class="carousel-item <?php echo $active;?>" data-bs-interval="3000">
-                                <img class="ratio ratio-16x9" src="<?php echo $slider['imgslider']; ?>" alt="...">
+                        <?php foreach ($sliders as $i => $slider) : ?>
+                            <div class="carousel-item <?php echo $i === 0 ? 'active' : ''; ?>" data-bs-interval="3000">
+                                <img class="ratio ratio-16x9" src="<?php echo esc_url($slider); ?>" alt="<?php echo esc_attr(get_bloginfo('name')); ?>">
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -38,6 +37,7 @@ $sliders = velocitytheme_option('slider_repeat');
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+                <?php endif; ?>
 
                 <h3 class="title-single-part my-3"><?php echo get_option('blogname') . ' - ' . get_option('blogdescription'); ?></h3>
                 <div class="produk-home mb-2">

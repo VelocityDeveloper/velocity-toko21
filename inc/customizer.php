@@ -1,0 +1,156 @@
+<?php
+/**
+ * Pengaturan Toko 21 di Customizer bawaan WordPress (tanpa Kirki).
+ *
+ * Nama theme mod sama dengan versi Kirki (color_content, typography_setting,
+ * velocity_judul_news, velocity_news) supaya nilai yang sudah tersimpan tetap
+ * terbaca. Slider Kirki (repeater slider_repeat) diganti slot gambar
+ * slider_image_1..N; data slider_repeat lama tetap dipakai selama slot kosong.
+ *
+ * @package justg
+ */
+
+defined('ABSPATH') || exit;
+
+const VELOCITY_TOKO21_SLIDER_SLOT = 5;
+
+add_action('customize_register', function ($wp_customize) {
+    $wp_customize->add_panel('panel_toko21', [
+        'priority' => 10,
+        'title'    => __('Setting Toko 21', 'justg'),
+    ]);
+
+    // Warna
+    $wp_customize->add_section('section_colorvelocity', [
+        'panel'    => 'panel_toko21',
+        'title'    => __('Warna', 'justg'),
+        'priority' => 10,
+    ]);
+    $wp_customize->add_setting('color_content', [
+        'default'           => '#343a40',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color_content', [
+        'label'       => __('Warna Konten', 'justg'),
+        'description' => __('Warna latar area konten/container.', 'justg'),
+        'section'     => 'section_colorvelocity',
+    ]));
+    $wp_customize->add_setting('velocity_toko21_warna_menu', [
+        'default'           => velocity_toko21_warna_menu_lama(),
+        'sanitize_callback' => 'sanitize_hex_color',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'velocity_toko21_warna_menu', [
+        'label'       => __('Warna Teks Menu & Judul Widget', 'justg'),
+        'section'     => 'section_colorvelocity',
+    ]));
+
+    // Slider beranda
+    $wp_customize->add_section('section_slider', [
+        'panel'       => 'panel_toko21',
+        'title'       => __('Slider Home', 'justg'),
+        'description' => __('Gambar slider di halaman ber-template Home. Slot kosong dilewati.', 'justg'),
+        'priority'    => 20,
+    ]);
+    for ($i = 1; $i <= VELOCITY_TOKO21_SLIDER_SLOT; $i++) {
+        $wp_customize->add_setting("slider_image_$i", [
+            'default'           => '',
+            'sanitize_callback' => 'esc_url_raw',
+        ]);
+        $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, "slider_image_$i", [
+            'label'   => sprintf(__('Slider %d', 'justg'), $i),
+            'section' => 'section_slider',
+        ]));
+    }
+
+    // Berita beranda
+    $wp_customize->add_section('velocity_news_section', [
+        'panel'    => 'panel_toko21',
+        'title'    => __('Velocity Home News', 'justg'),
+        'priority' => 30,
+    ]);
+    $wp_customize->add_setting('velocity_judul_news', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_text_field',
+    ]);
+    $wp_customize->add_control('velocity_judul_news', [
+        'label'   => __('Judul', 'justg'),
+        'section' => 'velocity_news_section',
+        'type'    => 'text',
+    ]);
+    $wp_customize->add_setting('velocity_news', [
+        'default'           => '',
+        'sanitize_callback' => 'absint',
+    ]);
+    $wp_customize->add_control('velocity_news', [
+        'label'   => __('Pilih Kategori:', 'justg'),
+        'section' => 'velocity_news_section',
+        'type'    => 'select',
+        'choices' => velocity_categories(),
+    ]);
+});
+
+/**
+ * Warna teks menu dari pengaturan Typography versi Kirki (bawaan #ffffff).
+ */
+function velocity_toko21_warna_menu_lama()
+{
+    $tipografi = get_theme_mod('typography_setting');
+    $warna = is_array($tipografi) ? sanitize_hex_color($tipografi['color'] ?? '') : '';
+    return $warna ?: '#ffffff';
+}
+
+/**
+ * URL gambar slider beranda: slot Customizer, atau data slider Kirki lama.
+ */
+function velocity_toko21_slider()
+{
+    $gambar = [];
+    for ($i = 1; $i <= VELOCITY_TOKO21_SLIDER_SLOT; $i++) {
+        $url = get_theme_mod("slider_image_$i", '');
+        if ($url) {
+            $gambar[] = $url;
+        }
+    }
+    if (!$gambar) {
+        foreach ((array) get_theme_mod('slider_repeat', []) as $baris) {
+            $url = is_array($baris) ? ($baris['imgslider'] ?? '') : '';
+            // Kirki bisa menyimpan id lampiran, bukan URL.
+            if (is_numeric($url)) {
+                $url = wp_get_attachment_url((int) $url);
+            }
+            if ($url) {
+                $gambar[] = $url;
+            }
+        }
+    }
+    return $gambar;
+}
+
+/**
+ * CSS dari pengaturan di atas (dulu dicetak Kirki).
+ */
+add_action('wp_enqueue_scripts', function () {
+    $konten = sanitize_hex_color(get_theme_mod('color_content', '#343a40')) ?: '#343a40';
+    $menu = sanitize_hex_color(get_theme_mod('velocity_toko21_warna_menu', velocity_toko21_warna_menu_lama())) ?: '#ffffff';
+    $css = ':root{--content-color:' . $konten . ';--color-main:' . $menu . ';}'
+        . '.bg-container{background-color:' . $konten . ';border-color:' . $konten . ';}'
+        . '.velocity-judul,#primary-menu>li>a,.nav-link,.widget-title,.text-colortheme,.text-colortheme i,.page-link{color:' . $menu . ';}';
+
+    // Latar website versi Kirki (background_themewebsite) di situs lama. Situs baru
+    // memakai pengaturan latar bawaan tema induk (Customizer > background website).
+    $latar = get_theme_mod('background_themewebsite');
+    if (is_array($latar)) {
+        $aturan = [];
+        foreach (['background-color', 'background-image', 'background-repeat', 'background-position', 'background-size', 'background-attachment'] as $prop) {
+            $nilai = trim((string) ($latar[$prop] ?? ''));
+            if ($nilai === '') {
+                continue;
+            }
+            $aturan[] = $prop . ':' . ($prop === 'background-image' ? 'url(' . esc_url($nilai) . ')' : esc_attr($nilai));
+        }
+        if ($aturan) {
+            $css .= 'body{' . implode(';', $aturan) . ';}';
+        }
+    }
+    wp_add_inline_style('custom-style', $css);
+}, 25);

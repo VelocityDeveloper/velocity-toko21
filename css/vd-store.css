@@ -1,21 +1,9 @@
 /* Toko 21 + VD Store. Dimuat hanya saat VD Store aktif: menggantikan warna
    yang dulu dicetak Kirki plugin Velocity Toko dan menyelaraskan komponen
-   VD Store dengan tampilan Toko 21. */
+   VD Store dengan tampilan Toko 21. Warna konten & menu: inc/customizer.php. */
 
 :root {
     --velocitytoko-color-main: var(--bs-primary, #1e73be);
-}
-
-/* Warna bawaan Kirki tema (Color Content) untuk situs yang belum menyimpannya. */
-.bg-container {
-    background-color: var(--content-color, #343a40);
-    border-color: var(--content-color, #343a40);
-}
-
-/* Warna teks menu bawaan Kirki tema (Typography, #ffffff). Selector sama dengan
-   keluaran Kirki supaya warna yang disimpan di Customizer tetap menang. */
-.velocity-judul, #primary-menu>li>a, .nav-link, .widget-title {
-    color: #fff;
 }
 
 .bg-colortheme,
