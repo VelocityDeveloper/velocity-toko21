@@ -127,9 +127,10 @@ function velocity_toko21_slider()
 }
 
 /**
- * CSS dari pengaturan di atas (dulu dicetak Kirki).
+ * CSS dari pengaturan di atas. Dicetak di akhir <head> seperti Kirki dulu, supaya
+ * menang atas CSS Bootstrap tema induk (.card memberi latar putih pada .bg-container).
  */
-add_action('wp_enqueue_scripts', function () {
+add_action('wp_head', function () {
     $konten = sanitize_hex_color(get_theme_mod('color_content', '#343a40')) ?: '#343a40';
     $menu = sanitize_hex_color(get_theme_mod('velocity_toko21_warna_menu', velocity_toko21_warna_menu_lama())) ?: '#ffffff';
     $css = ':root{--content-color:' . $konten . ';--color-main:' . $menu . ';}'
@@ -152,5 +153,5 @@ add_action('wp_enqueue_scripts', function () {
             $css .= 'body{' . implode(';', $aturan) . ';}';
         }
     }
-    wp_add_inline_style('custom-style', $css);
-}, 25);
+    echo '<style id="velocity-toko21-customizer">' . wp_strip_all_tags($css) . '</style>' . "\n";
+}, 100);
