@@ -68,6 +68,28 @@ body {
   font-size: 50px;
   color: #333;
 }
+/* Blog beranda: kotak tanggal ringkas di samping judul, jarak antarartikel. */
+.blog-home-item .card {
+    max-width: 90px;
+}
+.blog-home-item .date {
+    line-height: 1;
+}
+.blog-home-item .post-content {
+    font-size: .9em;
+    opacity: .85;
+}
+@media (max-width: 767.98px) {
+    .blog-home-item {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
+    }
+    .blog-home .col-md-6:last-child .blog-home-item {
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+}
+
 /* Judul artikel blog beranda: maksimal 2 baris, sisanya jadi "..". */
 .judul-posts h6 {
     display: -webkit-box;

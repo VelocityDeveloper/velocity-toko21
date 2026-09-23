@@ -92,8 +92,8 @@ $sliders = velocity_toko21_slider();
                         <div class="row mx-0">
                             <?php while ($wp_query->have_posts()) : $wp_query->the_post(); ?>
                                 <div class="col-md-6 px-1">
-                                    <article <?php post_class('row mx-0 p-md-1 rounded mb-1'); ?> id="post-<?php the_ID(); ?>">
-                                        <div class="col-md-3 px-1">
+                                    <article <?php post_class('row mx-0 p-md-1 rounded mb-3 blog-home-item'); ?> id="post-<?php the_ID(); ?>">
+                                        <div class="col-3 px-1">
                                             <div class="card p-0 text-center">
                                                 <div class="month rounded-top text-white p-1 text-uppercase bg-theme"><?php echo get_the_date('M', get_the_ID()); ?></div>
                                                 <div class="date h4 my-1"><?php echo get_the_date('d', get_the_ID()); ?></div>
@@ -101,7 +101,7 @@ $sliders = velocity_toko21_slider();
                                             </div>
                                         </div>
 
-                                        <div class="col-md-9 px-1">
+                                        <div class="col-9 ps-2 pe-1">
                                             <div class="judul-posts">
                                                 <h6>
                                                     <a class="fw-bold colortheme" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo the_title(); ?></a>
