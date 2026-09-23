@@ -45,7 +45,7 @@ $sliders = velocitytheme_option('slider_repeat');
                     $paged = (get_query_var('page')) ? get_query_var('page') : 1;
                     $argprod = array(
                         'posts_per_page' => 8,
-                        'post_type' => 'product',
+                        'post_type' => velocity_toko21_post_type_produk(),
                         'paged' => $paged,
                     );
                     $produk_query = new WP_Query($argprod);
@@ -54,7 +54,11 @@ $sliders = velocitytheme_option('slider_repeat');
                         echo '<div class="row m-0">';
                         while ($produk_query->have_posts()) {
                             $produk_query->the_post();
-                            do_action('velocitytoko_product_loop');
+                            if (velocity_toko21_vd_store()) {
+                                velocity_toko21_kartu_produk();
+                            } else {
+                                do_action('velocitytoko_product_loop');
+                            }
                         }
                         echo '</div>';
 

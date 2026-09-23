@@ -55,12 +55,17 @@
     <div class="row m-0 align-items-center text-white">
         <div class="col-md-9 col-12 pe-md-0">
             <div class="kontak-header text-md-end text-center align-items-center">
-                <?php echo do_shortcode('[kontak style="false"]'); ?>
+                <?php echo velocity_toko21_vd_store() ? velocity_toko21_kontak() : do_shortcode('[kontak style="false"]'); ?>
             </div>
         </div>
         <div class="col-md-1 col-6 p-md-0 px-2 profile-icons d-flex justify-content-md-center justify-content-end">
-            <div class="px-1"><?php echo do_shortcode('[profile]'); ?></div>
-            <div class="px-1"><?php echo do_shortcode('[cart]'); ?></div>
+            <?php if (velocity_toko21_vd_store()) : ?>
+                <div class="px-1"><?php echo velocity_toko21_profil(); ?></div>
+                <div class="px-1"><?php echo do_shortcode('[wp_store_cart size="16"]'); ?></div>
+            <?php else : ?>
+                <div class="px-1"><?php echo do_shortcode('[profile]'); ?></div>
+                <div class="px-1"><?php echo do_shortcode('[cart]'); ?></div>
+            <?php endif; ?>
         </div>
         <div class="col-md-2 col-6 p-md-0 px-2"><?php echo get_search_form(); ?></div>
     </div>

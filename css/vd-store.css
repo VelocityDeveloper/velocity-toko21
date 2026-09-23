@@ -1,0 +1,109 @@
+/* Toko 21 + VD Store. Dimuat hanya saat VD Store aktif: menggantikan warna
+   yang dulu dicetak Kirki plugin Velocity Toko dan menyelaraskan komponen
+   VD Store dengan tampilan Toko 21. */
+
+:root {
+    --velocitytoko-color-main: var(--bs-primary, #1e73be);
+}
+
+/* Warna bawaan Kirki tema (Color Content) untuk situs yang belum menyimpannya. */
+.bg-container {
+    background-color: var(--content-color, #343a40);
+    border-color: var(--content-color, #343a40);
+}
+
+/* Warna teks menu bawaan Kirki tema (Typography, #ffffff). Selector sama dengan
+   keluaran Kirki supaya warna yang disimpan di Customizer tetap menang. */
+.velocity-judul, #primary-menu>li>a, .nav-link, .widget-title {
+    color: #fff;
+}
+
+.bg-colortheme,
+.page-item.active .page-link {
+    background-color: var(--velocitytoko-color-main) !important;
+    border-color: var(--velocitytoko-color-main) !important;
+    color: #fff !important;
+}
+.bg-colortheme:hover {
+    filter: brightness(1.1);
+}
+
+/* Kartu produk */
+.card-product .wps-price-group {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0 .5rem;
+}
+.card-product .wps-price-group,
+.single-produk .wps-price-group {
+    flex-direction: column;
+    align-items: center;
+}
+.single-produk .wps-price-group {
+    flex-direction: row;
+    align-items: baseline;
+}
+.card-product .wps-price-text,
+.single-produk .wps-price-text {
+    color: var(--velocitytoko-color-main) !important;
+}
+.card-product .wps-price-text {
+    font-size: 1em;
+}
+.card-product .wps-price-group .wps-text-gray-500 {
+    color: #dc3545 !important;
+    font-size: .85em;
+}
+.cart-arsip .velocity-toko21-beli {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    color: #fff;
+    line-height: 1;
+}
+.cart-arsip .velocity-toko21-beli svg {
+    color: #fff;
+    stroke: #fff;
+}
+
+/* Detail produk */
+.single-produk .wps-mb-4 table tr {
+    border-color: rgba(255, 255, 255, .15) !important;
+}
+.single-produk .wps-mb-4 table td {
+    color: #fff !important;
+}
+.single-produk .wps-mb-4 table td:first-child {
+    color: rgba(255, 255, 255, .65) !important;
+}
+.single-produk .wps-wishlist-btn,
+.single-produk .wps-add-to-cart {
+    background-color: var(--velocitytoko-color-main);
+    border-color: var(--velocitytoko-color-main);
+    color: #fff;
+}
+.single-produk .wps-wishlist-btn svg,
+.single-produk .wps-add-to-cart svg {
+    color: #fff;
+    stroke: #fff;
+}
+.single-produk .wps-input-qty {
+    max-width: 70px;
+    text-align: center;
+}
+.single-produk .belilain .btn {
+    border-color: rgba(255, 255, 255, .35);
+    color: #fff;
+}
+.single-produk .kategori-produk a {
+    color: #fff;
+}
+.produk-terkait .row {
+    margin: 0;
+}
+
+/* Pricelist */
+.table .wps-price-text {
+    color: var(--velocitytoko-color-main) !important;
+}

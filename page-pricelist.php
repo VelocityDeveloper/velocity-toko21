@@ -9,7 +9,7 @@
 get_header();
 $container        = get_theme_mod('justg_container_type', 'container');
 $search_query     = new WP_Query(array(
-    'post_type'         => 'product',
+    'post_type'         => velocity_toko21_post_type_produk(),
     'post_status'       => 'publish',
     'order'             => 'asc',
     'orderby'           => 'title',
@@ -28,7 +28,11 @@ $search_query     = new WP_Query(array(
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <?php the_title('<h1 class="entry-title fs-4 m-0">', '</h1>'); ?>
                     <span>
-                        <?php echo do_shortcode('[print targetid="main"]'); ?>
+                        <?php if (velocity_toko21_vd_store()) : ?>
+                            <button type="button" class="btn btn-sm btn-dark" onclick="window.print()">Cetak</button>
+                        <?php else : ?>
+                            <?php echo do_shortcode('[print targetid="main"]'); ?>
+                        <?php endif; ?>
                     </span>
                 </div>
 
@@ -45,16 +49,24 @@ $search_query     = new WP_Query(array(
                                     <th>Harga</th>
                                 </thead>
                                 <tbody>
-                                    <?php while ($search_query->have_posts()) : $search_query->the_post(); ?>
+                                    <?php while ($search_query->have_posts()) : $search_query->the_post();
+                                        // Meta VD Store (_store_*) atau Velocity Toko (sku/stok/berat).
+                                        $vd = velocity_toko21_vd_store();
+                                        $sku = get_post_meta(get_the_ID(), $vd ? '_store_sku' : 'sku', true);
+                                        $stok = get_post_meta(get_the_ID(), $vd ? '_store_stock' : 'stok', true);
+                                        $berat = get_post_meta(get_the_ID(), $vd ? '_store_weight_kg' : 'berat', true);
+                                        if ($vd && $berat !== '') {
+                                            $berat = number_format_i18n((float) $berat, 2) . ' kg';
+                                        } ?>
                                         <tr>
-                                            <td><?php echo get_post_meta(get_the_ID(), 'sku', true); ?></td>
+                                            <td><?php echo esc_html($sku); ?></td>
                                             <td><?php echo get_the_title(); ?></td>
                                             <td>
                                                 <div class="ratio ratio-1x1"><img src="<?php echo get_the_post_thumbnail_url(); ?>" /></div>
                                             </td>
-                                            <td><?php echo get_post_meta(get_the_ID(), 'stok', true); ?></td>
-                                            <td><?php echo get_post_meta(get_the_ID(), 'berat', true); ?></td>
-                                            <td class="fw-bold"><?php echo do_shortcode('[harga]'); ?></td>
+                                            <td><?php echo esc_html($stok); ?></td>
+                                            <td><?php echo esc_html($berat); ?></td>
+                                            <td class="fw-bold"><?php echo do_shortcode($vd ? '[wp_store_price]' : '[harga]'); ?></td>
                                         </tr>
                                     <?php endwhile; ?>
                                 </tbody>

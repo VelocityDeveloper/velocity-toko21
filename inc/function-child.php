@@ -255,7 +255,7 @@ if (!function_exists('justg_left_sidebar_check')) {
     function justg_left_sidebar_check()
     {
         echo '<div class="collapse collapse-horizontal overflow-hidden" id="sidebar">';
-        echo do_shortcode('[vtoko-list-taxonomy]');
+        echo velocity_toko21_vd_store() ? velocity_toko21_list_kategori() : do_shortcode('[vtoko-list-taxonomy]');
         echo '</div>';
     }
 }
@@ -289,6 +289,14 @@ if (!function_exists('justg_right_sidebar_check')) {
         // if (is_singular('product')) {
         //     return;
         // }
+        if (velocity_toko21_vd_store() && is_tax(array('brand', 'store_product_cat'))) {
+            echo '<div class="right-sidebar widget-area pe-md-2 col-sm-12 col-md-3 order-md-1 order-4" id="right-sidebar" role="complementary">';
+            echo '<aside class="mb-3 d-none d-md-block">';
+            echo do_shortcode('[wp_store_filters]');
+            echo '</aside>';
+            echo '</div>';
+            return;
+        }
         if (is_tax(array('merk', 'category-product'))) {
             echo '<div class="right-sidebar widget-area pe-md-2 col-sm-12 col-md-3 order-md-1 order-4" id="right-sidebar" role="complementary">';
             echo '<aside class="mb-3 d-none d-md-block">';
