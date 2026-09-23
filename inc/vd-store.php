@@ -41,6 +41,20 @@ add_action('wp_enqueue_scripts', function () {
 }, 30);
 
 /**
+ * Pencarian situs = pencarian produk: hasilnya tampil di arsip produk VD Store
+ * (vd-store/archive-store_product.php, kartu produk Toko 21). Prioritas 5 supaya
+ * jalan sebelum VD Store menyusun query arsipnya (pre_get_posts prioritas 10).
+ */
+add_action('pre_get_posts', function ($query) {
+    if (is_admin() || !$query->is_main_query() || !$query->is_search() || !velocity_toko21_vd_store()) {
+        return;
+    }
+    if (!$query->get('post_type')) {
+        $query->set('post_type', 'store_product');
+    }
+}, 5);
+
+/**
  * Kartu produk arsip & beranda (markup sama dengan velocitytoko_content_products).
  */
 function velocity_toko21_kartu_produk()
@@ -260,7 +274,7 @@ function velocity_toko21_ikon($nama)
  * Isi halaman arsip/kategori/merek produk VD Store dengan tampilan Toko 21.
  * Dipanggil dari vd-store/*.php (template override VD Store).
  */
-function velocity_toko21_arsip_produk($judul)
+function velocity_toko21_arsip_produk($judul, $kosong = 'Produk belum tersedia.')
 {
     get_header();
     $container = velocitytheme_option('justg_container_type', 'container');
@@ -279,7 +293,7 @@ function velocity_toko21_arsip_produk($judul)
                         velocity_toko21_grid_produk();
                         justg_pagination();
                     else : ?>
-                        <div class="block-primary text-center py-4">Produk belum tersedia.</div>
+                        <div class="block-primary text-center py-4"><?php echo esc_html($kosong); ?></div>
                     <?php endif; ?>
                 </main>
                 <?php do_action('justg_after_content'); ?>
