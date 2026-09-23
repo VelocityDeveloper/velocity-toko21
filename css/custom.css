@@ -68,9 +68,15 @@ body {
   font-size: 50px;
   color: #333;
 }
-.judul-posts {
-    max-height: 40px;
+/* Judul artikel blog beranda: maksimal 2 baris, sisanya jadi "..". */
+.judul-posts h6 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
+    line-height: 1.3;
+    margin-bottom: .35rem;
 }
 .title-single-part {
     margin: 0 0 15px;
