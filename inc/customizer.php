@@ -44,6 +44,16 @@ add_action('customize_register', function ($wp_customize) {
         'section'     => 'section_colorvelocity',
     ]));
 
+    $wp_customize->add_setting('velocity_toko21_menu_aktif', [
+        'default'           => '',
+        'sanitize_callback' => 'sanitize_hex_color',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'velocity_toko21_menu_aktif', [
+        'label'       => __('Warna Latar Menu Hover/Aktif', 'justg'),
+        'description' => __('Latar item menu atas saat disorot dan pada halaman yang sedang dibuka. Kosong = tanpa latar.', 'justg'),
+        'section'     => 'section_colorvelocity',
+    ]));
+
     // Slider beranda
     $wp_customize->add_section('section_slider', [
         'panel'       => 'panel_toko21',
@@ -136,6 +146,12 @@ add_action('wp_head', function () {
     $css = ':root{--content-color:' . $konten . ';--color-main:' . $menu . ';}'
         . '.bg-container{background-color:' . $konten . ';border-color:' . $konten . ';}'
         . '.velocity-judul,#primary-menu>li>a,.nav-link,.widget-title,.text-colortheme,.text-colortheme i,.page-link{color:' . $menu . ';}';
+
+    $menu_aktif = sanitize_hex_color(get_theme_mod('velocity_toko21_menu_aktif', ''));
+    if ($menu_aktif) {
+        $css .= '#primary-menu>li>a:hover,#primary-menu>li>a:focus-visible,#primary-menu>li.current-menu-item>a,'
+            . '#primary-menu>li.current-menu-ancestor>a{background-color:' . $menu_aktif . ';color:#fff;}';
+    }
 
     // Latar website versi Kirki (background_themewebsite) di situs lama. Situs baru
     // memakai pengaturan latar bawaan tema induk (Customizer > background website).

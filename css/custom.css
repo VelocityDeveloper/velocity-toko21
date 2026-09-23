@@ -255,3 +255,13 @@ body {
         z-index: 99;
     }
 }
+/* Link hover/active di area konten & footer: warna Customizer > Link Hover (tema induk).
+   Banyak link tema berwarna paksa (.colortheme, .text-white), jadi perlu !important. */
+.bg-container a:not(.btn):not(.wps-btn):not(.nav-link):hover,
+.bg-container a:not(.btn):not(.wps-btn):not(.nav-link):active,
+.bg-container a:not(.btn):not(.wps-btn):not(.nav-link):focus-visible,
+.site-footer a:not(.btn):hover,
+.site-footer a:not(.btn):active,
+.site-footer a:not(.btn):focus-visible {
+    color: var(--bs-link-hover-color) !important;
+}
