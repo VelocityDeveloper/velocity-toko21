@@ -327,6 +327,16 @@ function velocity_tema_widget_sidebar()
     ];
 }
 
+/**
+ * Widget footer acuan Toko 21: KOSONG, persis demo toko21.velocitydeveloper.com — footer hanya
+ * baris hak cipta + "Design by Velocity Developer" dari inc/part-footer.php (keputusan user
+ * 2026-09-24). Installer mengosongkan footer-widget-1..4 untuk tema ini.
+ */
+function velocity_tema_widget_footer()
+{
+    return [];
+}
+
 add_action('init', function () {
     if (!velocity_toko21_vd_store()) {
         return;
