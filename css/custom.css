@@ -266,3 +266,46 @@ body {
 .site-footer a:not(.btn):focus-visible {
     color: var(--bs-link-hover-color) !important;
 }
+
+/* Pagination Bootstrap (arsip produk, kategori, pencarian): latar .page-link putih
+   bawaan sedangkan teksnya putih dari Customizer (warna menu) -> angka tak terlihat. */
+.bg-container .pagination .page-link {
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .2);
+    color: #fff;
+}
+.bg-container .pagination .page-link:hover,
+.bg-container .pagination .page-link:focus-visible {
+    background-color: rgba(255, 255, 255, .2);
+}
+.bg-container .pagination .page-item.active .page-link,
+.bg-container .pagination .page-link.current {
+    background-color: var(--velocitytoko-color-main);
+    border-color: var(--velocitytoko-color-main);
+    color: #fff;
+}
+
+/* Halaman 404 tema induk di latar gelap. */
+.bg-container .error-hero__code {
+    color: var(--toko21-aksen, var(--velocitytoko-color-main));
+}
+.bg-container .error-hero__summary {
+    color: rgba(255, 255, 255, .75);
+}
+
+/* Form komentar berlatar terang (.block-primary): teks gelap, bukan putih warisan container. */
+#comments.block-primary {
+    color: #212529;
+}
+#comments.block-primary h1, #comments.block-primary h2, #comments.block-primary h3,
+#comments.block-primary h4, #comments.block-primary h5, #comments.block-primary h6 {
+    color: var(--velocitytoko-color-main) !important;
+}
+
+/* Tombol share velocity-addons: teks putih di #1DA1F2/#25D366 kurang terbaca. */
+.share-button.share-twitter {
+    background-color: #000 !important;
+}
+.share-button.share-whatsapp {
+    background-color: #128c7e !important;
+}
