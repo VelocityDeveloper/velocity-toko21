@@ -34,6 +34,7 @@ tetap memakai Velocity Toko seperti versi 1.0.x. Integrasinya ada di `inc/vd-sto
 | `[share]` | `[velocity-sharepost]` (Velocity Addons) |
 | `[vtoko-list-taxonomy]` | `velocity_toko21_list_kategori()` |
 | filter kategori | `[wp_store_filters]` |
+| testimoni | `[toko21_testimoni jumlah="5"]` — ulasan produk VD Store terbaru |
 
 ### Usage
 Simply download the zip and upload the zip (velocity-toko21.zip) under your WordPress dashboard at Appearance > Themes. Or extract and upload via FTP at wp-content/themes/.
