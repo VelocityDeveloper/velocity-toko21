@@ -33,7 +33,7 @@
 }
 .card-product .wps-price-text,
 .single-produk .wps-price-text {
-    color: var(--velocitytoko-color-main) !important;
+    color: var(--toko21-aksen, var(--velocitytoko-color-main)) !important;
 }
 .card-product .wps-price-text {
     font-size: 1em;
@@ -93,5 +93,59 @@
 
 /* Pricelist */
 .table .wps-price-text {
+    color: var(--toko21-aksen, var(--velocitytoko-color-main)) !important;
+}
+
+/* Latar konten Toko 21 gelap, sedangkan VD Store memakai teks hitam/abu-abu untuk
+   latar putih: keranjang, katalog, total, "Hubungi Admin" jadi tak terbaca. Di area
+   konten teks itu dibuat terang; di dalam kartu/baris putih VD Store (.wps-card,
+   kepala tabel keranjang) warna gelapnya dikembalikan — tanpa itu teks mewarisi
+   .text-white container dan hilang di latar putih (judul checkout, filter, tracking). */
+.bg-container {
+    --primary-color: var(--velocitytoko-color-main);
+    --primary-color-hover: var(--velocitytoko-color-main);
+}
+.bg-container .wps-text-gray-900,
+.bg-container .wps-total-amount {
+    color: #fff;
+}
+.bg-container .wps-text-gray-400,
+.bg-container .wps-text-gray-500,
+.bg-container .wps-text-gray-600,
+.bg-container .wps-text-gray-700,
+.bg-container .wps-total-label {
+    color: rgba(255, 255, 255, .75);
+}
+.bg-container .wps-card,
+.bg-container .wps-table-head {
+    color: var(--gray-900);
+}
+.bg-container .wps-card .wps-text-gray-900 {
+    color: var(--gray-900);
+}
+.bg-container .wps-card .wps-text-gray-400,
+.bg-container .wps-card .wps-text-gray-500,
+.bg-container .wps-card .wps-text-gray-600,
+.bg-container .wps-table-head .wps-text-gray-500 {
+    color: var(--gray-500);
+}
+.bg-container .wps-card .wps-text-gray-700 {
+    color: var(--secondary-text-color);
+}
+.bg-container .wps-card h1, .bg-container .wps-card h2, .bg-container .wps-card h3,
+.bg-container .wps-card h4, .bg-container .wps-card h5, .bg-container .wps-card h6 {
+    color: var(--gray-900) !important;
+}
+.bg-container .wps-card .wps-price-text {
     color: var(--velocitytoko-color-main) !important;
+}
+/* Tombol Reset/Terapkan filter di sidebar sempit sempat meluber keluar kartu. */
+form.wps-card .wps-justify-between {
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+/* Panah carousel Testimoni di sidebar gelap (panah bawaan #333 untuk slider foto). */
+.widget-area .carousel-control-prev-icon:after,
+.widget-area .carousel-control-next-icon:after {
+    color: #fff;
 }

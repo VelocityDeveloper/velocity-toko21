@@ -110,6 +110,55 @@ function velocity_toko21_warna_menu_lama()
 }
 
 /**
+ * Komponen RGB dari warna hex (#rgb atau #rrggbb).
+ */
+function velocity_toko21_rgb($hex)
+{
+    $hex = ltrim($hex, '#');
+    if (strlen($hex) === 3) {
+        $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+    }
+    return array_map('hexdec', str_split($hex, 2));
+}
+
+/**
+ * Campur warna hex dengan putih sebanyak $porsi (0..1).
+ */
+function velocity_toko21_campur_putih($hex, $porsi)
+{
+    return vsprintf('#%02x%02x%02x', array_map(function ($v) use ($porsi) {
+        return (int) round($v + (255 - $v) * $porsi);
+    }, velocity_toko21_rgb($hex)));
+}
+
+function velocity_toko21_kecerahan($hex)
+{
+    $l = array_map(function ($v) {
+        $v /= 255;
+        return $v <= .03928 ? $v / 12.92 : pow(($v + .055) / 1.055, 2.4);
+    }, velocity_toko21_rgb($hex));
+    return .2126 * $l[0] + .7152 * $l[1] + .0722 * $l[2];
+}
+
+/**
+ * Warna utama untuk TEKS di latar konten gelap: warna utama (misal hijau logo
+ * #2a9630) sering tak terbaca di latar #343a40, jadi diterangkan bertahap sampai
+ * kontrasnya minimal 4.5:1 (WCAG AA). Latar/tombol tetap memakai warna utama asli.
+ */
+function velocity_toko21_warna_terbaca($warna, $latar)
+{
+    $l_latar = velocity_toko21_kecerahan($latar);
+    for ($i = 0; $i <= 20; $i++) {
+        $hasil = velocity_toko21_campur_putih($warna, $i / 20);
+        $l = velocity_toko21_kecerahan($hasil);
+        if ((max($l, $l_latar) + .05) / (min($l, $l_latar) + .05) >= 4.5) {
+            return $hasil;
+        }
+    }
+    return '#ffffff';
+}
+
+/**
  * URL gambar slider beranda: slot Customizer, atau data slider Kirki lama.
  */
 function velocity_toko21_slider()
@@ -143,7 +192,10 @@ function velocity_toko21_slider()
 add_action('wp_head', function () {
     $konten = sanitize_hex_color(get_theme_mod('color_content', '#343a40')) ?: '#343a40';
     $menu = sanitize_hex_color(get_theme_mod('velocity_toko21_warna_menu', velocity_toko21_warna_menu_lama())) ?: '#ffffff';
-    $css = ':root{--content-color:' . $konten . ';--color-main:' . $menu . ';}'
+    $utama = sanitize_hex_color(get_theme_mod('primary_color', '#1e73be')) ?: '#1e73be';
+    // Kartu produk memakai latar putih 10% di atas warna konten: uji kontras di latar itu.
+    $aksen = velocity_toko21_warna_terbaca($utama, velocity_toko21_campur_putih($konten, .1));
+    $css = ':root{--content-color:' . $konten . ';--color-main:' . $menu . ';--toko21-aksen:' . $aksen . ';}'
         . '.bg-container{background-color:' . $konten . ';border-color:' . $konten . ';}'
         . '.velocity-judul,#primary-menu>li>a,.nav-link,.widget-title,.text-colortheme,.text-colortheme i,.page-link{color:' . $menu . ';}';
 
