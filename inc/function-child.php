@@ -105,10 +105,25 @@ function velocity_excerpt_length($length)
     return 20;
 }
 
+/**
+ * Halaman Katalog (Pengaturan VD Store > Halaman > Katalog, halaman ber-[wp_store_catalog], atau
+ * template katalog tema) selalu tampil penuh tanpa sidebar.
+ */
+function velocity_toko21_halaman_katalog()
+{
+    if (!is_page()) {
+        return false;
+    }
+    $katalog = (int) (((array) get_option('wp_store_settings', []))['page_catalog'] ?? 0);
+    return ($katalog && is_page($katalog))
+        || has_shortcode((string) get_post_field('post_content', get_queried_object_id()), 'wp_store_catalog')
+        || strpos((string) get_page_template_slug(), 'katalog') !== false;
+}
+
 if (!function_exists('justg_right_sidebar_check')) {
     function justg_right_sidebar_check()
     {
-        if (is_singular('fl-builder-template')) {
+        if (is_singular('fl-builder-template') || velocity_toko21_halaman_katalog()) {
             return;
         }
         if (!is_active_sidebar('main-sidebar')) {
